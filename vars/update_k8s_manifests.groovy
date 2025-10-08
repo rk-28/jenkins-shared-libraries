@@ -12,7 +12,7 @@ def call(Map config = [:]) {
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-    withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+    withCredentials([string(credentialsId: '${gitCredentials}', variable: 'TOKEN')]) {
         // Configure Git
         sh """
             echo ${GITHUB_PASSWORD}
@@ -45,7 +45,7 @@ def call(Map config = [:]) {
                 git commit -m "Update image tags to ${imageTag} and ensure correct domain [ci skip]"
                 
                 # Set up credentials for push
-                git remote set-url origin https://\${GIT_USERNAME}:\${TOKEN}@github.com/rk-28/eks_project.git
+                git remote set-url origin https://\$rk-28:\${TOKEN}@github.com/rk-28/eks_project.git
                 git push origin HEAD:\${GIT_BRANCH}
             fi
         """
