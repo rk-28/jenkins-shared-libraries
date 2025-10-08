@@ -6,13 +6,13 @@
 def call(Map config = [:]) {
     def imageTag = config.imageTag ?: error("Image tag is required")
     def manifestsPath = config.manifestsPath ?: 'kubernetes'
-///def gitCredentials = config.gitCredentials ?: 'github-credentials'
+    def gitCredentials = config.gitCredentials ?: 'github-credentials'
     def gitUserName = config.gitUserName ?: 'Jenkins CI'
     def gitUserEmail = config.gitUserEmail ?: 'jenkins@example.com'
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-   withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN')]) {
+    withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
     )]) {
         // Configure Git
         sh """
@@ -44,9 +44,9 @@ def call(Map config = [:]) {
                 git commit -m "Update image tags to ${imageTag} and ensure correct domain [ci skip]"
                 
                 # Set up credentials for push
-                git config credential.helper store
-                echo "https://rk-28:${GITHUB_TOKEN}@github.com" > ~/.git-credentials
-                git push origin HEAD:\${GIT_BRANCH}
+                git config --global credential.helper store // Configure Git to store credentials
+                echo "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com" > ~/.git-credentials // Store credentials for HTTPS
+                git clone https://github.com/your-org/your-repo.git
             fi
         """
     }
