@@ -12,7 +12,10 @@ def call(Map config = [:]) {
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-    withCredentials([usernamePassword(credentialsId: 'github-credentials', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+    withCredentials([usernamePassword(
+        credentialsId: 'github-credentials',
+        usernameVariable: 'GIT_USERNAME',
+        passwordVariable: 'GIT_PASSWORD'
     )]) {
         // Configure Git
         sh """
@@ -44,9 +47,8 @@ def call(Map config = [:]) {
                 git commit -m "Update image tags to ${imageTag} and ensure correct domain [ci skip]"
                 
                 # Set up credentials for push
-                git config --global credential.helper store // Configure Git to store credentials
-                echo "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com" > ~/.git-credentials // Store credentials for HTTPS
-                git clone https://github.com/your-org/your-repo.git
+                git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/rk-28/eks_project.git
+                git push origin HEAD:\${GIT_BRANCH}
             fi
         """
     }
