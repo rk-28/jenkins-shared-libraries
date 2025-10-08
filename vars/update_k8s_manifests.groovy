@@ -30,7 +30,7 @@ def call(Map config = [:]) {
             
             # Update migration job if it exists
             if [ -f "${manifestsPath}/12-migration-job.yaml" ]; then
-                sed -i "s|image: trainwithshubham/easyshop-migration:.*|image: trainwithshubham/easyshop-migration:${imageTag}|g" ${manifestsPath}/12-migration-job.yaml
+                sed -i "s|image: rk-28/easyshop-migration:.*|image: trainwithshubham/easyshop-migration:${imageTag}|g" ${manifestsPath}/12-migration-job.yaml
             fi
             
             # Ensure ingress is using the correct domain
