@@ -16,6 +16,7 @@ withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN'
     )]) {
         // Configure Git
         sh """
+            echo "${gitCredentials}"
             git config user.name "${gitUserName}"
             git config user.email "${gitUserEmail}"
         """
@@ -45,7 +46,7 @@ withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN'
                 
                 # Set up credentials for push
                 git remote set-url origin https://rk-28:\${GITHUB_TOKEN}@github.com/rk-28/eks_project.git
-                git push origin HEAD:\${GIT_BRANCH}
+                git push origin HEAD:master
             fi
         """
     }
