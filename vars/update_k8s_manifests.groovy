@@ -7,22 +7,17 @@ def call(Map config = [:]) {
     def imageTag = config.imageTag ?: error("Image tag is required")
     def manifestsPath = config.manifestsPath ?: 'kubernetes'
     def gitCredentials = config.gitCredentials ?: 'github-credentials'
-    def gitUserName = config.gitUserName ?: 'rk-28'
-    def gitUserEmail = config.gitUserEmail ?: 'khannarakesh006.com'
+    def gitUserName = config.gitUserName ?: 'Jenkins CI'
+    def gitUserEmail = config.gitUserEmail ?: 'jenkins@example.com'
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-    withCredentials([usernamePassword(
-        credentialsId: 'github-credentials',
-        usernameVariable: 'GIT_USERNAME',
-        passwordVariable: 'GIT_PASSWORD'
+   withCredentials([string(credentialsId: 'github-pat', variable: 'GITHUB_TOKEN')]) {
     )]) {
         // Configure Git
         sh """
             git config user.name "${gitUserName}"
             git config user.email "${gitUserEmail}"
-        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rk-28/eks_project.git
-        git push origin HEAD:${GIT_BRANCH}
         """
         
         // Update deployment manifests with new image tags - using proper Linux sed syntax
@@ -49,7 +44,7 @@ def call(Map config = [:]) {
                 git commit -m "Update image tags to ${imageTag} and ensure correct domain [ci skip]"
                 
                 # Set up credentials for push
-                git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/rk-28/eks_project.git
+                git remote set-url origin https://rk-28:${GITHUB_TOKEN}@github.com/rk-28/eks_project.git
                 git push origin HEAD:\${GIT_BRANCH}
             fi
         """
