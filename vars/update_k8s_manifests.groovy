@@ -12,7 +12,7 @@ def call(Map config = [:]) {
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-    w withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
+    withCredentials([string(credentialsId: 'mytoken', variable: 'TOKEN')]) {
         // Configure Git
         sh """
             echo ${GITHUB_PASSWORD}
