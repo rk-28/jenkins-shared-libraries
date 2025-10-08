@@ -15,7 +15,7 @@ def call(Map config = [:]) {
     withCredentials([usernamePassword(
         credentialsId: 'github-credentials',
         usernameVariable: 'GIT_USERNAME',
-        passwordVariable: 'GIT_PASSWORD'
+        passwordVariable: 'GITHUB_TOKEN'
     )]) {
         // Configure Git
         sh """
@@ -47,7 +47,7 @@ def call(Map config = [:]) {
                 git commit -m "Update image tags to ${imageTag} and ensure correct domain [ci skip]"
                 
                 # Set up credentials for push
-                git remote set-url origin https://\${GIT_USERNAME}:\${GIT_PASSWORD}@github.com/rk-28/eks_project.git
+                git remote set-url origin https://\${GIT_USERNAME}:\${GITHUB_TOKEN}@github.com/rk-28/eks_project.git
                 git push origin HEAD:\${GIT_BRANCH}
             fi
         """
