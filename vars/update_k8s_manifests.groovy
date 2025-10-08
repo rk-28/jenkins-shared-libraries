@@ -7,8 +7,8 @@ def call(Map config = [:]) {
     def imageTag = config.imageTag ?: error("Image tag is required")
     def manifestsPath = config.manifestsPath ?: 'kubernetes'
     def gitCredentials = config.gitCredentials ?: 'github-credentials'
-    def gitUserName = config.gitUserName ?: 'Jenkins CI'
-    def gitUserEmail = config.gitUserEmail ?: 'jenkins@example.com'
+    def gitUserName = config.gitUserName ?: 'rk-28'
+    def gitUserEmail = config.gitUserEmail ?: 'khannarakesh006.com'
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
@@ -21,6 +21,8 @@ def call(Map config = [:]) {
         sh """
             git config user.name "${gitUserName}"
             git config user.email "${gitUserEmail}"
+        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/rk-28/eks_project.git
+        git push origin HEAD:${GIT_BRANCH}
         """
         
         // Update deployment manifests with new image tags - using proper Linux sed syntax
