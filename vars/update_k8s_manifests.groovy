@@ -13,10 +13,10 @@ def call(Map config = [:]) {
     
     echo "Updating Kubernetes manifests with image tag: ${imageTag}"
     
-   withCredentials([usernamePassword(
-       credentialsId: "${gitCredentials}", 
-       usernameVariable: 'GIT_USERNAME',
-       passwordVariable: 'GIT_PASSWORD'
+    withCredentials([usernamePassword(
+        credentialsId: "${gitCredentials}", 
+        usernameVariable: 'GIT_USERNAME',
+        passwordVariable: 'GIT_PASSWORD'
    )]) {
         // Configure Git
         sh """
