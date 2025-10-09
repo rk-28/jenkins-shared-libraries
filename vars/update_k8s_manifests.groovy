@@ -51,7 +51,7 @@ def call(Map config = [:]) {
                 # Set up credentials for push
                 git remote -v
                 git config --global credential.helper 'store --file ~/.git-credentials'
-                
+                git@github.com/rk-28/eks_project.git
                 git push origin HEAD:\${GIT_BRANCH}
             fi
         """
