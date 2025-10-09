@@ -7,7 +7,6 @@ def call(Map config = [:]) {
     def imageTag = config.imageTag ?: error("Image tag is required")
     def manifestsPath = config.manifestsPath ?: 'kubernetes'
     def gitCredentials = config.gitCredentials ?: 'github-credentials'
-    def gitkey = config.gitkey ?: 'github_key'
     def gitUserName = config.gitUserName ?: 'Jenkins CI'
     def gitUserEmail = config.gitUserEmail ?: 'jenkins@example.com'
     
@@ -20,8 +19,6 @@ def call(Map config = [:]) {
    )]) {
         // Configure Git
         sh """
-            eval \$(ssh-agent -s)
-            ssh-add ${SSH_KEY}
             git config user.name "${gitUserName}"
             git config user.email "${gitUserEmail}"
         """
