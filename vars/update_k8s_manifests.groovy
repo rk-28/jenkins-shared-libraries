@@ -15,7 +15,7 @@ def call(Map config = [:]) {
     withCredentials([usernamePassword(
         credentialsId: 'github-credentials', 
         usernameVariable: 'GIT_USERNAME',
-        passwordVariable: 'GIT_PASSWORD'
+        passwordVariable: 'GIT_TOKEN'
    )]) {
         // Configure Git
         sh """
