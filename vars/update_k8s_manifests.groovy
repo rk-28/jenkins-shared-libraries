@@ -19,6 +19,7 @@ def call(Map config = [:]) {
    )]) {
         // Configure Git
         sh """
+            git clone https://rk-28:\${GIT_TOKEN}@github.com/rk-28/eks_project.git
             git config user.name "${gitUserName}"
             git config user.email "${gitUserEmail}"
         """
