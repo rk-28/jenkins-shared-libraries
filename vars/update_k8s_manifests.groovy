@@ -25,7 +25,7 @@ def call(Map config = [:]) {
             git config user.email "${gitUserEmail}"
         """
         
-        // Update deployment manifests with new image tags - using proper Linux sed syntax
+        // Update deployment manifests with new image tags - using proper Linux sed syntax git remote set-url origin https://${GIT_TOKEN}:${GIT_TOKEN}@github.com/rk-28/eks_project.git
         sh """
             # Update main application deployment - note the correct image name is trainwithshubham/easyshop-app
             sed -i "s|image: rakesh5210/easyshop-app:.*|image: rakesh5210/easyshop-app:${imageTag}|g" ${manifestsPath}/08-easyshop-deployment.yaml
@@ -51,7 +51,7 @@ def call(Map config = [:]) {
                 # Set up credentials for push
                 git remote -v
                 git config --global credential.helper 'store --file ~/.git-credentials'
-                git remote set-url origin https://${GIT_TOKEN}:${GIT_TOKEN}@github.com/rk-28/eks_project.git
+                
                 git push origin HEAD:\${GIT_BRANCH}
             fi
         """
